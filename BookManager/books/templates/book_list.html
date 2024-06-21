@@ -1,0 +1,43 @@
+{% extends 'base_generic.html' %}
+{% block content %}
+<h2 class="my-4">Books</h2>
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Genre</th>
+            <th>Published Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in object_list %}
+        <tr>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.genre }}</td>
+            <td>{{ book.published_date }}</td>
+            <td>
+                <a class="btn btn-primary btn-sm" href="{% url 'book_edit' book.pk %}">Edit</a>
+                <a class="btn btn-danger btn-sm" href="{% url 'book_delete' book.pk %}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a class="btn btn-success my-4" href="{% url 'book_new' %}">Add new book</a>
+<div>
+    {% if is_paginated %}
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}
